@@ -1,0 +1,94 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Employee Details";
+}
+<link href="~/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<style>
+    .table-bordered {
+        border: 3px solid #1d6ade !important;
+    }
+</style>
+<table class="table table-bordered">
+    <thead class="bg-success">
+        <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>DOB</th>
+            <th>DOJ</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @if (Model.EmployeeList != null && Model.EmployeeList.Count > 0)
+        {
+            foreach (var item in Model.EmployeeList)
+            {
+                <tr id="row_@item.Id">
+                    <td class="rowClass_@item.Id">
+                        @item.Name
+                    </td>
+                    <td class="rowClass_@item.Id">
+                        @item.Mobile
+                    </td>
+                    <td class="rowClass_@item.Id">
+                        @item.DOB
+                    </td>
+                    <td class="rowClass_@item.Id">
+                        @item.DOJ
+                    </td>
+                    <td class="rowClass_@item.Id">
+                        <button type="button" class="bg-info" onclick="EditRow(@item.Id);"> Edit</button>
+                    </td>
+
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+<button type="button" class="bg-info" onclick="AddNewRow();"> Add Row</button>
+
+<script src="~/js/Jquery.js"></script>
+<script src="~/js/bootstrap-datetimepicker.js"></script>
+<script src="~/js/bootstrap-datetimepicker.fr.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.datetimepicker').datetimepicker({
+            language: 'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    });
+
+    function EditRow(Id) {
+        $(".rowClass_" + Id).hide();
+        $("#row_" + Id).append("<td><input type='text' class='form-control' name='Name' id='Name' /></td><td><input type='text' class='form-control' name='Mobile' id='Mobile' /></td> <td><div class='input-group date' class='datetimepicker'><input type='text' name ='DOB' id ='DOB' class='form-control' placeholder='DOB'/><span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td><td><div class='input-group date' class='datetimepicker'><input type='text' name ='DOJ' id ='DOJ' class='form-control' placeholder='DOJ' /><span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td><td> <button type='button' class='bg-info' onclick='UpdateRow(" + Id + ");'> Update</button></td>");
+    }
+
+    function UpdateRow(Id) {
+        var Name = $("#Name").val();
+        var Mobile = $("#Mobile").val();
+        var DOB = $("#DOB").val();
+        var DOJ = $("#DOJ").val();
+        window.location.href = "Index?handler=Edit&Name=" + Name + "&Mobile=" + Mobile + "&DOB=" + DOB + "&DOJ=" + DOJ;
+    }
+
+    function AddNewRow() {
+        $("#tableBody").append("<td><input type='text' class='form-control' name='Name' id='NameAdd' /></td><td><input type='text' class='form-control' name='Mobile' id='MobileAdd' /></td> <td><div class='input-group date' class='datetimepicker'><input type='text' name ='DOB' id ='DOBAdd' class='form-control' placeholder='DOB'/><span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td><td><div class='input-group date' class='datetimepicker'><input type='text' name ='DOJ' id ='DOJAdd' class='form-control' placeholder='DOJ' /><span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span></div></td><td> <button type='button' class='bg-info' onclick='AddDetails();'> Add</button></td>");
+    }
+
+    function AddDetails()
+    {
+        var Name = $("#NameAdd").val();
+        var Mobile = $("#MobileAdd").val();
+        var DOB = $("#DOBAdd").val();
+        var DOJ = $("#DOJAdd").val();
+        window.location.href = "Index?handler=Add&Name=" + Name + "&Mobile=" + Mobile + "&DOB=" + DOB + "&DOJ=" + DOJ;
+    }
+</script>
