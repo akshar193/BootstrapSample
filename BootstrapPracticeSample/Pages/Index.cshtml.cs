@@ -12,6 +12,8 @@ using ServiceLayer;
 
 namespace BootstrapPracticeSample.Pages
 {
+
+    [BindProperties]
     public class IndexModel : PageModel
     {
         public List<Employee> EmployeeList { get; set; }
